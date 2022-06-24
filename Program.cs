@@ -23,6 +23,14 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+//Desabilitando o CORS para o endereco do Front
+//Coloque o endereco do seu front
+app.UseCors(policy =>
+    policy.WithOrigins("*")
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+);
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
