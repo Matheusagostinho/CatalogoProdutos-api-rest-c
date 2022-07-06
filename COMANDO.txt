@@ -1,0 +1,5 @@
+dotnet-ef database update 0 //apagar tabalas do bd
+
+dotnet-ef migrations add Inicial // criar migrations
+
+dotnet-ef database update
