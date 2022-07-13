@@ -14,49 +14,69 @@ public class ProdutoService
         _context = context;
     }
 
-    public Produto Add( Produto data){
+      public List<ProdutoResponseDTO> ListAll (){
+
+
+         return  _context.Produtos
+         .Include(produto => produto.Categoria)
+         .ProjectToType<ProdutoResponseDTO>()
+         .ToList();
+    }
+
+    public ProdutoResponseDTO ListOne( int id)
+    {
+        var produto = _context.Produtos
+            .AsNoTracking()
+            .Include(produto => produto.Categoria)
+            .SingleOrDefault(produto => produto.Id == id);
+
+        if (produto is null)
+        {
+            throw new Exception("Produto não encontrado");
+        }
+
+        //Copiar (mapear) de Usuario para UsuarioResponseDto
+        var produtoDto = produto.Adapt<ProdutoResponseDTO>();
+        return produtoDto;
+    }
+
+      public ProdutoResponseDTO Add( ProdutoCreateUpdateDTO data){
+
+        var produto = data.Adapt<Produto>();
          var datenow = DateTime.Now;
-        data.DateCreated = datenow;
-        data.DateUpdated = datenow;
+        produto.DateCreated = datenow;
+        produto.DateUpdated = datenow;
         
-        _context.Produtos.Add(data);
+        _context.Produtos.Add(produto);
 
         _context.SaveChanges();
 
-        return data;
+        var produtoDto = produto.Adapt<ProdutoResponseDTO>();
+        return produtoDto;
     }
 
-    public List<Produto> ListAll (){
-         return  _context.Produtos.ToList();
-    }
-    
-
-    public Produto ListOne( int id)
+    public ProdutoResponseDTO Update(int id, ProdutoCreateUpdateDTO data)
     {
-        Produto course = _context.Produtos.SingleOrDefault(curse => curse.Id == id);
+       Produto produto = _context.Produtos
+       .SingleOrDefault(item => item.Id == id)
+       .SingleOrDefault(item => item.Id == id);; 
+         if (produto is null)
+        {
+            throw new Exception("Produto não encontrado");
+        }
 
-        if (course is null)
-            return null ;
-            
-
-        return course;
-    }
-
-    public Produto Update(int id, Produto data)
-    {
-       Produto course = _context.Produtos.SingleOrDefault(curse => curse.Id == id); 
-       if (course is null)
-            return null ;
+        data.Adapt(produto);
         
         _context.SaveChanges();
 
-        return course;
+         var produtoDto = produto.Adapt<ProdutoResponseDTO>();
+        return produtoDto;
     }
 
     public void Delete( int id){
          Produto item = _context.Produtos.SingleOrDefault(item => item.Id == id); 
        if (item is null)
-            throw new Exception("Course not found") ;
+            throw new Exception("Produto não encontrado") ;
         
         _context.Remove(item);
         _context.SaveChanges();
