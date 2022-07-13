@@ -15,6 +15,7 @@ builder.Services.AddDbContext<CatalogoProdutosContext>(
 );
 
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<ProdutoService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

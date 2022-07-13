@@ -1,6 +1,8 @@
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using CatalogoProdutos.Data;
 using CatalogoProdutos.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CatalogoProdutos.Services;
 
@@ -17,10 +19,9 @@ public class ProdutoService
       public List<ProdutoResponseDTO> ListAll (){
 
 
-         return  _context.Produtos
-         .Include(produto => produto.Categoria)
-         .ProjectToType<ProdutoResponseDTO>()
-         .ToList();
+         return  _context.Produtos.Include(produto => produto.Categoria)
+            .ProjectToType<ProdutoResponseDTO>()
+            .ToList();
     }
 
     public ProdutoResponseDTO ListOne( int id)
@@ -41,11 +42,12 @@ public class ProdutoService
     }
 
       public ProdutoResponseDTO Add( ProdutoCreateUpdateDTO data){
-
+          
         var produto = data.Adapt<Produto>();
-         var datenow = DateTime.Now;
-        produto.DateCreated = datenow;
-        produto.DateUpdated = datenow;
+      
+        //  var datenow = DateTime.Now;
+        // produto.DateCreated = datenow;
+        // produto.DateUpdated = datenow;
         
         _context.Produtos.Add(produto);
 
@@ -57,9 +59,10 @@ public class ProdutoService
 
     public ProdutoResponseDTO Update(int id, ProdutoCreateUpdateDTO data)
     {
-       Produto produto = _context.Produtos
-       .SingleOrDefault(item => item.Id == id)
-       .SingleOrDefault(item => item.Id == id);; 
+       var produto = _context.Produtos
+       .SingleOrDefault(item => item.Id == id); 
+
+
          if (produto is null)
         {
             throw new Exception("Produto não encontrado");

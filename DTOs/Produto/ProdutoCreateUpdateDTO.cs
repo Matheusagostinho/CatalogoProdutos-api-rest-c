@@ -5,6 +5,7 @@ namespace CatalogoProdutos.Models;
 
     public class ProdutoCreateUpdateDTO
     {
+
     [Required]
     [StringLength(255, MinimumLength = 3)]
     public string Nome { get; set; }
@@ -18,11 +19,12 @@ namespace CatalogoProdutos.Models;
 
     [Required]
     public string Url_imagem { get; set; }
+    public int CategoriaId { get; set; }
 
-   
+
   
-    
-   
     }
+
+
 
    
