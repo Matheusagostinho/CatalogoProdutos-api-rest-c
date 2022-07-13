@@ -28,12 +28,6 @@ namespace CatalogoProdutos.Models;
     public DateTime DateCreated { get; set; }
     public DateTime DateUpdated { get; set; }
 
-
-
-
-
-    
-
     //Propriedade de navegacao
     public List<PedidoDetalhado> PedidoDetalhados {get;set;}
 
