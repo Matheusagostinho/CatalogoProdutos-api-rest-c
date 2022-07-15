@@ -35,7 +35,7 @@ namespace CatalogoProdutos.Models;
     //Chave estrangeira
     public Categoria Categoria {get;set;}
    
-    public int? CategoriaId  {get;set;}
+    public int CategoriaId  {get;set;}
 
   
 
